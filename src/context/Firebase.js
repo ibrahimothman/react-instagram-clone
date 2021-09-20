@@ -6,7 +6,7 @@ import {
     onAuthStateChanged,
     signOut,
 } from "firebase/auth";
-import { collection, addDoc } from "firebase/firestore";
+import { collection, addDoc, getDocs, where, query } from "firebase/firestore";
 import { auth, db } from "../lib/Firebase";
 
 const FirebaseContext = createContext({
@@ -22,14 +22,10 @@ export function FirebaseContextProvider({ children }) {
 
     // setup auth listener
     useEffect(() => {
-        onAuthStateChanged(auth, (user) => {
+        onAuthStateChanged(auth, async (user) => {
             if (user) {
-              setAuthUser({
-                id: user.uid,
-                // username: user.displayName.toLowerCase(),
-                email: user.email.toLowerCase(),
-              })
-              setIsLoggedIn(true)
+                setAuthUser(user)
+                setIsLoggedIn(true)
             } else {
               // User is signed out
               setAuthUser(null)
@@ -42,11 +38,11 @@ export function FirebaseContextProvider({ children }) {
     const [error, setError] = useState(null)
     const [isLoggedIn, setIsLoggedIn] = useState(null)
 
+
     const login = async ({ email, password }) => {
         try {
             init()
             const { user } = await signInWithEmailAndPassword(auth, email, password)
-            // get more information about him from firestore like (username)
             setAuthUser(user)
             setIsLoggedIn(true)
         } catch (err) {
@@ -68,11 +64,12 @@ export function FirebaseContextProvider({ children }) {
             await updateProfile(user, { displayName: username })
 
             const createdUser = {
-                id: user.uid,
+                userId: user.uid,
                 username: username.toLowerCase(),
-                email: user.email.toLowerCase(),
+                emailAddress: user.email.toLowerCase(),
                 following: [],
-                createdAt: Date.now()
+                followers: [],
+                dateCreated: Date.now()
             }
             // add him to firestore
             await addDoc(collection(db, 'users'), createdUser)

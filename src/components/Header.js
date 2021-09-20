@@ -11,7 +11,7 @@ function Header() {
     const signOutHandler = async (e) => {
         await signout()
         // to login page
-        history.push(ROUTES.LOGIN)
+        // history.push(ROUTES.LOGIN)
     }
 
     return (
@@ -64,7 +64,7 @@ function Header() {
 
                                 </button>
                                 <div className="flex items-center cursor-pointer">
-                                    <Link to={`/p/${authUser.id}`}>
+                                    <Link to={`/p/${authUser?.id}`}>
                                         <img
                                             className="rounded-full h-8 w-8 flex"
                                             src="/images/avatars/users/default.png"
@@ -73,7 +73,23 @@ function Header() {
                                 </div>
                             </>
                         ): (
-                            ''
+                            <>
+                                <Link to={ROUTES.LOGIN}>
+                                    <button
+                                        type='button'
+                                        className="bg-blue-medium font-bold text-sm rounded text-white w-20 h-8">
+                                        Log In
+                                    </button>
+                                </Link>
+
+                                <Link to={ROUTES.SIGN_UP}>
+                                    <button
+                                        type='button'
+                                        className="font-bold text-sm rounded text-blue-medium w-20 h-8">
+                                        Sign Up
+                                    </button>
+                                </Link>
+                            </>
                         )}
                     </div>
                 </div>

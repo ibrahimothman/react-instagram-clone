@@ -1,12 +1,14 @@
 import React, {useEffect, useState, useContext} from 'react'
 import {Link, useHistory} from 'react-router-dom'
 import FirebaseContext from '../context/Firebase'
+import UserContext from '../context/User'
 import * as ROUTES from '../constants/Routes'
 function Login() {
 
     const history = useHistory()
 
     const firebaseCtx = useContext(FirebaseContext)
+    const userCtx = useContext(UserContext)
 
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')

@@ -1,7 +1,10 @@
 module.exports = {
   purge: [],
-  darkMode: false, // or 'media' or 'class'
+  darkMode: false,
   theme: {
+    fill: (theme) => ({
+      red: theme('colors.red.primary')
+    }),
     colors: {
       white: '#ffffff',
       blue: {
