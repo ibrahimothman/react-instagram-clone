@@ -22,7 +22,7 @@ function Post({ post }) {
     }
     return (
         <div className="rounded col-span-4 border bg-white border-gray-primary mb-8">
-            <Header username={post.user.username}/>
+            <Header username={post.user?.username}/>
             <Image src={post.imageSrc} caption={post.caption}/>
             <Actions
                 docId={post.docId}
@@ -31,7 +31,7 @@ function Post({ post }) {
                 handleFocus={handleCommentFocus}/>
             <Footer username={post.user.username} caption={post.caption}/>
             <div className="p-4 pt-1 pb-4">
-                <CommentsList comments={comments}/>
+                <CommentsList comments={comments} postUserId={post.user?.docId}/>
                 <p className="text-gray-base text-xs mt-2">
                     {formatDistance(post.dateCreated, new Date())} ago
                 </p>

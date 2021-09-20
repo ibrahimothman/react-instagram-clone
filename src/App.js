@@ -13,6 +13,8 @@ import FirebaseContext from "./context/Firebase";
 const Login = lazy(() => import('./pages/Login'))
 const Signup = lazy(() => import('./pages/Signup'))
 const Dashboard = lazy(() => import('./pages/Dashboard'))
+const Profile = lazy(() => import('./pages/Profile'))
+const NotFound = lazy(() => import('./pages/NotFound'))
 
 
 export default function App() {
@@ -24,12 +26,14 @@ export default function App() {
           <ProtectedRoutes user={authUser} path={ROUTES.DASHBOARD} exact>
             <Dashboard />
           </ProtectedRoutes>
+          <Route component={Profile} path={ROUTES.PROFILE}/>
           <ProtectedGuestRoutes user={authUser} path={ROUTES.LOGIN}>
             <Login />
           </ProtectedGuestRoutes>
           <ProtectedGuestRoutes user={authUser} path={ROUTES.SIGN_UP}>
             <Signup />
           </ProtectedGuestRoutes>
+          <Route component={NotFound} path={ROUTES.NOT_FOUND}/>
         </Switch>
       </Suspense>
     </Router>

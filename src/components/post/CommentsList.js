@@ -1,7 +1,7 @@
 import React from 'react'
 import Comment from './Comment'
 
-function CommentsList({ comments }) {
+function CommentsList({ comments, postUserId }) {
     return (
         <>
             {comments && comments.length >= 3 && (
@@ -10,7 +10,7 @@ function CommentsList({ comments }) {
                 </p>
             )}
             {comments.slice(0, 3).map(comment => (
-                <Comment key={`${comment.comment}-${comment.displayName}`} comment={comment}/>
+                <Comment key={`${comment.comment}-${comment.displayName}`} comment={comment} postUserId={postUserId}/>
             ))}
         </>
     )

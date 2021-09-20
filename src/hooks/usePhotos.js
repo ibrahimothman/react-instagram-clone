@@ -23,7 +23,8 @@ export default function usePhotos() {
                             ...photo,
                             isLikedByLoggedInUser,
                             user: {
-                                username: user?.username
+                                username: user?.username,
+                                docId: user?.docId
                             }
                         }
                     })

@@ -9,6 +9,7 @@ import {
     doc,
     updateDoc,
     orderBy,
+    getDoc,
 } from "@firebase/firestore";
 import { db } from "../lib/Firebase";
 
@@ -22,6 +23,19 @@ export async function getUserByUserId(userId) {
     }))
 
     return user
+}
+
+export async function getUserByDocId(docId) {
+    console.log(docId);
+    const docRef = doc(db, "users", docId);
+    const docSnap = await getDoc(docRef);
+    if (!docSnap.exists()) {
+        return null
+    }
+    return {
+        ...docSnap.data(),
+        docId: docSnap.id
+    }
 }
 
 export async function getSuggestedProfiles(loggedInUserId, following) {
@@ -43,12 +57,11 @@ export async function getSuggestedProfiles(loggedInUserId, following) {
 }
 
 export async function updateLoggedInUserFollowing(loggedInDocId, followedUserId, isFollowing) {
-    // console.log('logged in user with docId: '+loggedInDocId+" wants to follow the profile whose userId: "+followedUserId)
     const loggedInUserDoc = doc(db, "users", loggedInDocId);
     await updateDoc(loggedInUserDoc, {
-        following: isFollowing ? arrayRemove(followedUserId) : arrayUnion(followedUserId)
-    });
-}
+            following: isFollowing ? arrayRemove(followedUserId) : arrayUnion(followedUserId)
+        });
+    }
 
 export async function updateFollowedUserFollowers(followedUserDocId, loggedInUserId, isFollowing) {
     const followedUserDoc = doc(db, "users", followedUserDocId);
@@ -87,4 +100,21 @@ export async function addComment(photoDocId, comment, displayName) {
         comments: arrayUnion({ comment, displayName })
     });
 }
+
+export async function getPhotosByUserId(userId) {
+    const q = query(
+        collection(db, "photos"),
+        where('userId', '==', userId),
+        limit(10)
+    );
+
+    const querySnapshot = await getDocs(q)
+    const result = querySnapshot.docs.map(doc => ({
+        ...doc.data(),
+        docId: doc.id
+    }))
+
+    return result
+}
+
 
