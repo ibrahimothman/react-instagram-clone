@@ -74,10 +74,10 @@ export async function getPhotos(userIds) {
 }
 
 // user like and dislike a photo
-export async function togglePhotoLikes(photoDocId, loggedInUserId, toBeLiked) {
+export async function togglePhotoLikes(photoDocId, loggedInUserId, isLiked) {
     const photoDoc = doc(db, "photos", photoDocId);
     await updateDoc(photoDoc, {
-        likes: toBeLiked ? arrayUnion(loggedInUserId) : arrayRemove(loggedInUserId)
+        likes: isLiked ? arrayRemove(loggedInUserId) : arrayUnion(loggedInUserId)
     });
 }
 

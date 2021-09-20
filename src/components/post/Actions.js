@@ -9,9 +9,9 @@ function Actions({ docId, totalLikes, hasBeenLiked, handleFocus }) {
     const [likes, setLikes] = useState(totalLikes)
 
     const toggleLikesHandler = async () => {
+        await togglePhotoLikes(docId, user.userId, isLiked)
         setIsLiked((prev) => !prev)
         setLikes((likes) => isLiked ? likes - 1 : likes + 1)
-        await togglePhotoLikes(docId, user.userId, isLiked)
     }
 
     const focusHandler = (e) => {

@@ -11,7 +11,7 @@ function Header() {
     const signOutHandler = async (e) => {
         await signout()
         // to login page
-        // history.push(ROUTES.LOGIN)
+        history.push(ROUTES.LOGIN)
     }
 
     return (
